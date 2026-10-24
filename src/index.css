@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #090b10;
+  --color-bg-2: #11151d;
+  --color-surface: #171b26;
+  --color-fg: #f5f7fa;
+  --color-muted: #9aa4b2;
+  --color-accent: #638bff;
+  --color-accent-2: #8b5cf6;
+  --color-line: #293040;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+    background: var(--color-bg);
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+    color: var(--color-fg);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 1360px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 4.5vw, 4rem);
+  }
+  .section-y {
+    padding-block: clamp(5rem, 11vw, 10rem);
+  }
+  .card {
+    background: var(--color-surface);
+    border: 1px solid color-mix(in srgb, var(--color-line) 70%, transparent);
+    border-radius: 1.25rem;
+    transition: transform 0.35s var(--ease-premium), border-color 0.35s var(--ease-premium),
+      background-color 0.35s var(--ease-premium);
+  }
+  @media (hover: hover) {
+    .card-hover:hover {
+      transform: translateY(-4px);
+      border-color: color-mix(in srgb, var(--color-accent) 40%, var(--color-line));
+    }
+  }
+  .heading-xl {
+    font-size: clamp(2.6rem, 8.4vw, 6.75rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+  }
+  .heading-lg {
+    font-size: clamp(2.1rem, 5.2vw, 4.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+  }
+  .mono {
+    font-family: var(--font-mono);
+    font-feature-settings: normal;
+  }
+  .tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1;
+    padding: 0.5rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--color-line) 80%, transparent);
+    color: var(--color-muted);
+    background: color-mix(in srgb, var(--color-bg-2) 70%, transparent);
+    transition: color 0.25s var(--ease-premium), border-color 0.25s var(--ease-premium),
+      background-color 0.25s var(--ease-premium);
+  }
+  .tag:hover {
+    color: var(--color-fg);
+    border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-line));
+    background: color-mix(in srgb, var(--color-accent) 8%, var(--color-bg-2));
+  }
+}
+
+/* Blinking caret + subtle shimmer for loading states */
+@keyframes caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+.caret {
+  display: inline-block;
+  width: 0.08em;
+  height: 0.82em;
+  margin-left: 0.08em;
+  vertical-align: -0.04em;
+  background: var(--color-accent);
+  animation: caret 1.1s steps(1) infinite;
+}
+@keyframes shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--color-bg-2) 0%, #1c2230 50%, var(--color-bg-2) 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.6s linear infinite;
+  border-radius: 0.5rem;
+}
+@keyframes pulse-dot {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent); }
+  70%, 100% { box-shadow: 0 0 0 8px transparent; }
+}
+.pulse-dot { animation: pulse-dot 2.2s ease-out infinite; }
